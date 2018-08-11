@@ -14,3 +14,10 @@ def clean(text, cls=None, **kwargs):
     cls = cls or Scrubber
     scrubber = cls()
     return scrubber.clean(text, **kwargs)
+
+def find_sensitive(text, cls=None, **kwargs):
+    #Public facing function to locate sensitive data
+    #It returns a list of locations and the word located
+    cls = cls or Scrubber
+    scrubber = cls()
+    return scrubber.find_sensitive(text, **kwargs)

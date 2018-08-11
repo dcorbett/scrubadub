@@ -61,6 +61,24 @@ class Scrubber(object):
         clean_chunks.append(text[filth.end:])
         return u''.join(clean_chunks)
 
+    def find_sensitive(self, text, **kwargs):
+        """This is the master method that cleans all of the filth out of the
+        dirty dirty ``text``. All keyword arguments to this function are passed
+        through to the  ``Filth.replace_with`` method to fine-tune how the
+        ``Filth`` is cleaned.
+        """
+        if sys.version_info < (3, 0):
+            # Only in Python 2. In 3 every string is a Python 2 unicode
+            if not isinstance(text, unicode):
+                raise exceptions.UnicodeRequired
+
+        sensitive_data = []
+        filth = Filth()
+        for next_filth in self.iter_filth(text):
+            entry = redact(next_filth.type, next_filth.text, next_filth.beg, next_filth.end)
+            sensitive_data.append(entry);
+        return sensitive_data
+
     def iter_filth(self, text):
         """Iterate over the different types of filth that can exist.
         """
@@ -94,3 +112,14 @@ class Scrubber(object):
             else:
                 filth = filth.merge(next_filth)
         yield filth
+
+class redact:
+    def __init__(self, type, text, start, end):
+        self.type = type
+        self.text = text
+        self.start = start
+        self.end = end
+
+    def __str__(self):
+        return "type:{} text:{} start:{} end:{}".format(self.type, self.text, self.start, self.end)
+
