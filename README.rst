@@ -11,9 +11,7 @@
 scrubadub
 =========
 
-Clean personally identifiable information from dirty dirty text.
-
-Below is an example of the extend find sensitve feature. I the example below a redact object will be returned. The first redact object will contain ``type:email text:alice@example.com start:8 end:25`` The start and the end are the length of the word + 1. 
+Below is an example of the extend find sensitve feature. The example below returns a list of redact objects that will contain sensitve informatino. The first redact object will contain ``type:email text:alice@example.com start:8 end:25`` The start and the end are the length of the word + 1. 
 
     import scrubadub
 
