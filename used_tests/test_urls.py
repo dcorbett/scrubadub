@@ -2,7 +2,7 @@ import unittest
 
 import scrubadub
 
-from base import BaseTestCase
+from tests.base import BaseTestCase
 
 
 class UrlTestCase(unittest.TestCase, BaseTestCase):

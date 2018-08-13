@@ -17,7 +17,10 @@ class BaseTestCase(object):
             scrubadub.filth.base.Filth.lookup = scrubadub.utils.Lookup()
         return scrubadub.clean(text, **kwargs)
 
-    def get_before_after(self, docstring=None):
+    def find_sensitive(self, text):
+        return scrubadub.find_sensitive(text)
+
+    def get_before_after(self, docstring=None, before="BEFORE:", after="AFTER:"):
         """Recursively parse the docstrings of methods that are called in the
         stack to find the docstring that has been used to define the test.
         """
@@ -28,10 +31,10 @@ class BaseTestCase(object):
             for frame in inspect.stack():
                 calling_function_name = frame[3]
                 _docstring = getattr(self, calling_function_name).__doc__
-                if "BEFORE:" in _docstring and "AFTER:" in _docstring:
+                if before in _docstring and after in _docstring:
                     docstring = _docstring
                     break
-        before, after = docstring.split("BEFORE:")[1].split("AFTER:")
+        before, after = docstring.split(before)[1].split(after)
         return unicode(before.strip()), unicode(after.strip())
 
     def check_equal(self, expected, actual):
@@ -50,3 +53,16 @@ class BaseTestCase(object):
         """
         before, after = self.get_before_after(docstring=docstring)
         self.check_equal(after, self.clean(before, **clean_kwargs))
+
+    def validate_detector(self, detector, docstring=None ):
+        """Convenience method for quickly writing tests using the BEFORE and
+        AFTER keywords to parse the docstring. This is specifically for the redact
+        """
+        before, after = self.get_before_after(docstring=docstring, before="TEST:", after="VALIDATE:")
+
+        result_set = []
+        for next_filth in detector.iter_filth(detector(),after):
+            result_set.append(next_filth.text)
+        self.check_equal(len(result_set), 1)
+        self.check_equal(before, result_set[0])
+

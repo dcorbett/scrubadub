@@ -5,6 +5,7 @@ from base import BaseTestCase
 
 class AdvancedTestCase(unittest.TestCase, BaseTestCase):
 
+    @unittest.skip("Custom Native Test - detector unused")
     def test_disable_email(self):
         """
         BEFORE: contact Joe Duffy at joe@example.com
@@ -16,6 +17,7 @@ class AdvancedTestCase(unittest.TestCase, BaseTestCase):
         scrubber.remove_detector('email')
         self.check_equal(after, scrubber.clean(before))
 
+    @unittest.skip("Custom Native Test - detector unused")
     def test_customize_filth_identification(self):
         """
         BEFORE: contact Joe Duffy at joe@example.com
@@ -32,6 +34,7 @@ class AdvancedTestCase(unittest.TestCase, BaseTestCase):
         scrubadub.filth.base.Filth.prefix = prefix
         scrubadub.filth.base.Filth.suffix = suffix
 
+    @unittest.skip("Custom Native Test - detector unused")
     def test_identifier(self):
         """
         BEFORE: i'm on skype (dean.malmgren) or can be reached at +1.800.346.1819
@@ -39,6 +42,7 @@ class AdvancedTestCase(unittest.TestCase, BaseTestCase):
         """
         self.compare_before_after(replace_with='identifier')
 
+    @unittest.skip("Custom Native Test - detector unused")
     def test_identifier_repeat(self):
         """
         BEFORE: my name is Dean Malmgren. Did I mention my name is Dean?

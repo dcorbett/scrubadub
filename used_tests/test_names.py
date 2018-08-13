@@ -2,7 +2,7 @@ import unittest
 
 import scrubadub
 
-from base import BaseTestCase
+from tests.base import BaseTestCase
 
 
 class NameTestCase(unittest.TestCase, BaseTestCase):

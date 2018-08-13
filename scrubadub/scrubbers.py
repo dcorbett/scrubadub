@@ -61,7 +61,7 @@ class Scrubber(object):
         clean_chunks.append(text[filth.end:])
         return u''.join(clean_chunks)
 
-    def find_sensitive(self, text, **kwargs):
+    def find_sensitive(self, text):
         """This is the master method that cleans all of the filth out of the
         dirty dirty ``text``. All keyword arguments to this function are passed
         through to the  ``Filth.replace_with`` method to fine-tune how the
@@ -76,7 +76,7 @@ class Scrubber(object):
         filth = Filth()
         for next_filth in self.iter_filth(text):
             entry = redact(next_filth.type, next_filth.text, next_filth.beg, next_filth.end)
-            sensitive_data.append(entry);
+            sensitive_data.append(entry)
         return sensitive_data
 
     def iter_filth(self, text):

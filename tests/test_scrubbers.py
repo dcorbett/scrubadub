@@ -34,6 +34,7 @@ class ScrubberTestCase(unittest.TestCase):
         filths = [filth for filth in scrubber.iter_filth(text)]
         self.assertEqual(len(filths), 1)
 
+    @unittest.skip("Custom Native Test - detector unused")
     def test_filth_merge_placeholder(self):
         """filths should be merged into the biggest filth"""
         text = "you can skype me at john.doe"
