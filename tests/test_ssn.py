@@ -30,7 +30,7 @@ class SSNTestCase(unittest.TestCase, BaseTestCase):
 
     def test_redact(self):
         """
-        TEST: 812 80 1276
-        VALIDATE:  Lorem ipsum dolor sit amet, 812 80 1276 consectetur adipiscing elit
+        BEFORE: Lorem ipsum dolor sit amet, 812 80 1276 consectetur adipiscing elite
+        AFTER:  812 80 1276
         """
         self.validate_detector(SSNDetector)

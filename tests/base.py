@@ -47,6 +47,16 @@ class BaseTestCase(object):
             '\nEXPECTED:\n"%s"\n\nBUT GOT THIS:\n"%s"'%(expected, actual),
         )
 
+    def check_not_equal(self, expected, actual):
+        """This method makes it easy to give useful error messages when running
+        nosetests
+        """
+        self.assertNotEqual(
+            actual,
+            expected,
+            '\nEXPECTED ANYTHING ELSE BUT:\n"%s"\n\nBUT GOT THIS:\n"%s"'%(expected, actual),
+        )
+
     def compare_before_after(self, docstring=None, **clean_kwargs):
         """Convenience method for quickly writing tests using the BEFORE and
         AFTER keywords to parse the docstring.
@@ -58,11 +68,16 @@ class BaseTestCase(object):
         """Convenience method for quickly writing tests using the BEFORE and
         AFTER keywords to parse the docstring. This is specifically for the redact
         """
-        before, after = self.get_before_after(docstring=docstring, before="TEST:", after="VALIDATE:")
+        before, after = self.get_before_after(docstring=docstring)
 
         result_set = []
-        for next_filth in detector.iter_filth(detector(),after):
+        for next_filth in detector.iter_filth(detector(),before):
             result_set.append(next_filth.text)
-        self.check_equal(len(result_set), 1)
-        self.check_equal(before, result_set[0])
+        self.check_not_equal(len(result_set), 0)
+        self.check_equal(after, ','.join(map(str, result_set)))
+
+    def validate_template(self, detector, docstring=None):
+        before, after = self.get_before_after(docstring=docstring, before="VERIFY:", after="TESTS:")
+        #Put text before and after, Put numbers before and after, Put at the end of a sentence, Put at the begining of a sentence
+        return
 
