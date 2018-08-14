@@ -2,7 +2,7 @@ import unittest
 
 from base import BaseTestCase
 
-from scrubadub.detectors.phone import PhoneDetector as Detector
+from scrubadub.detectors.phone_alt import PhoneAltDetector as Detector
 
 
 class PhoneNumberTestCase(unittest.TestCase, BaseTestCase):
@@ -61,9 +61,9 @@ class PhoneNumberTestCase(unittest.TestCase, BaseTestCase):
             'problem with multiple phone numbers: \n %s' % result,
         )
 
-    def test_standard(self):
+    def test_standard_wText(self):
         """
-        BEFORE: Lorem ipsum 12343 dolor sit amet, 1- 855-492-5538 consectetur 23423 adipiscing elit
-        AFTER: 1- 855-492-5538
+        BEFORE: Lorem ipsum 12343 dolor sit amet, US4052034739 consectetur 23423 adipiscing elit
+        AFTER: US4052034739
         """
         self.validate_detector(Detector)

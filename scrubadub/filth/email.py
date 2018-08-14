@@ -21,4 +21,4 @@ class EmailFilth(RegexFilth):
         "(\.|\sdot\s)"                              # . or dot fanciness
         ")+"                                        # repeat as necessary
         "[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"           # end of domain
-    ), re.VERBOSE)
+    ), re.VERBOSE | re.IGNORECASE)
