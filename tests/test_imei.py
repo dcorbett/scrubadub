@@ -22,3 +22,10 @@ class IMEITestCase(unittest.TestCase, BaseTestCase):
         """
         self.validate_detector(Detector)
 
+    def test_13_digit_imei_(self):
+        """
+        BEFORE: Lorem 3948723648309 ipsum 12343 dolor sit amet, 867979020438419 consectetur 23423 adipiscing elit
+        AFTER: 3948723648309,867979020438419
+        """
+        self.validate_detector(Detector)
+

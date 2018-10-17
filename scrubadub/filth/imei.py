@@ -16,5 +16,5 @@ class IMEIFilth(RegexFilth):
     # there are 2 versions. This only checks the 
     # ^(?!\b(.)\1+\b)\d{15}$ 
     regex = re.compile((
-        "\d{15}"       # imei number is a 15 digit number
+        "\d{13,15}"       # imei number is a 15 digit number. Lowering this to 13 to catch all
     ), re.VERBOSE)
