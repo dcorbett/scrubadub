@@ -2,6 +2,7 @@ import phonenumbers
 
 from .base import Detector
 from ..filth import PhoneFilth
+import re
 
 
 class PhoneDetector(Detector):
@@ -16,10 +17,14 @@ class PhoneDetector(Detector):
     """
     filth_cls = PhoneFilth
     region = 'US'
+    hotline_pattern = "1?(\-|\.|\s)?\(?(8|9)(88|00)\)?(\-|\.|\s)?\d{3,4}(\-|\.|\s)?\d{4,6}"
+    hotline_matcher = re.compile(hotline_pattern)
 
     def iter_filth(self, text):
         # create a copy of text to handle multiple phone numbers correctly
         for match in phonenumbers.PhoneNumberMatcher(text, self.region):
+            if self.hotline_matcher.match(match.raw_string):
+                continue
             yield PhoneFilth(
                 beg=match.start,
                 end=match.end,

@@ -13,10 +13,22 @@ class PhoneNumberTestCase(unittest.TestCase, BaseTestCase):
         AFTER:  My phone number is {{PHONE}}
         """ % phone_number
 
+    def create_docstring_neutral(self, phone_number):
+        return """
+        BEFORE: My phone number is %s
+        AFTER:  My phone number is %s
+        """ % (phone_number, phone_number)
+
     def check_phone_numbers(self, *phone_numbers):
         for phone_number in phone_numbers:
             self.compare_before_after(
                 docstring=self.create_docstring(phone_number),
+            )
+
+    def ensure_phone_number_neutral(self, *phone_numbers):
+        for phone_number in phone_numbers:
+            self.compare_before_after(
+                docstring=self.create_docstring_neutral(phone_number),
             )
 
     def test_american_phone_number(self):
@@ -67,3 +79,13 @@ class PhoneNumberTestCase(unittest.TestCase, BaseTestCase):
         AFTER: US4052034739
         """
         self.validate_detector(Detector)
+
+    def test_hotline_numbers(self):
+        self.ensure_phone_number_neutral(
+            '18005883600',
+            '1-800-588-3600',
+            '1 (800) 515-2239',
+            '900.515-2239',
+            '(888) 515-2239',
+            '(800)515-2239',
+        )
